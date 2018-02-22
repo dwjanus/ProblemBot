@@ -31,7 +31,7 @@ const controller = Botkit.slackbot({
   clientId: config('SLACK_CLIENT_ID'),
   clientSecret: config('SLACK_CLIENT_SECRET'),
   clientVerificationToken: config('SLACK_VERIFY'),
-  redirectUri: 'https://problem-bot-beta.herokuapp.com/oauth',
+  redirectUri: 'https://problem-bot.herokuapp.com/oauth',
   scopes: ['bot', 'incoming-webhook', 'channels:history', 'groups:history']
 })
 
@@ -382,6 +382,6 @@ const buildDescription = (messages) => {
 }
 
 setInterval(() => {
-  http.get('http://problem-bot-beta.herokuapp.com')
+  http.get('http://problem-bot.herokuapp.com')
 }, 300000)
 

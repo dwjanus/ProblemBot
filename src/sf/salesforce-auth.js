@@ -13,7 +13,7 @@ const oauth2 = new jsforce.OAuth2({
   loginUrl: 'https://samanageservicedesk-7030.cloudforce.com',
   clientId: config('SF_ID'),
   clientSecret: config('SF_SECRET'),
-  redirectUri: 'https://problem-bot-beta.herokuapp.com/authorize'
+  redirectUri: 'https://problem-bot.herokuapp.com/authorize'
 })
 
 exports.login = (req, res) => {

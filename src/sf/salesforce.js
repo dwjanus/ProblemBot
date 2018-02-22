@@ -28,7 +28,7 @@ const oauth2 = new jsforce.OAuth2({
   loginUrl: 'https://samanageservicedesk-7030.cloudforce.com',
   clientId: config('SF_ID'),
   clientSecret: config('SF_SECRET'),
-  redirectUri: 'https://problem-bot-beta.herokuapp.com/authorize'
+  redirectUri: 'https://problem-bot.herokuapp.com/authorize'
 })
 
 export default ((slackUserId) => {
@@ -39,7 +39,7 @@ export default ((slackUserId) => {
 
       if (!user.sf) {
         console.log('[salesforce] ** no connection object found, returning link now **')
-        return reject({ text: `✋ Hold your horses!\nVisit this URL to login to Salesforce: https://problem-bot-beta.herokuapp.com/login/${slackUserId}` })
+        return reject({ text: `✋ Hold your horses!\nVisit this URL to login to Salesforce: https://problem-bot.herokuapp.com/login/${slackUserId}` })
       }
 
       console.log('[salesforce] ** user found! **')
@@ -75,7 +75,7 @@ export default ((slackUserId) => {
           })
           .catch((referr) => {
             console.log(`[salesforce] ** refresh event error! ${referr} **`)
-            return reject({ text: `✋ Whoa now! You need to reauthorize first.\nVisit this URL to login to Salesforce: https://problem-bot-beta.herokuapp.com/login/${slackUserId}` })
+            return reject({ text: `✋ Whoa now! You need to reauthorize first.\nVisit this URL to login to Salesforce: https://problem-bot.herokuapp.com/login/${slackUserId}` })
           })
         }
         return resolve(retrieveSfObj(conn))
@@ -101,7 +101,7 @@ function retrieveSfObj (conn) {
             Priority: priority,
             Origin: origin,
             Description: description,
-            // OwnerId = 00539000005ozwGAAQ
+            OwnerId: '00539000005ozwGAAQ',
             RecordTypeId: recordtypeid
           }, (error, ret) => {
             if (error || !ret.success) return reject(error || 'error')
