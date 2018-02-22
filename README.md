@@ -1,2 +1,2 @@
-# ProblemBot
-Bot to submit new Problem tickets to Samanage service desk via Slack
+# Problem-Bot-beta-
+test version of the Samanage Problem Bot for Slack
