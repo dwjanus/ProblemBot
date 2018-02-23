@@ -9,23 +9,8 @@ import Promise from 'bluebird'
 
 const storage = mongo({ mongoUri: config('MONGODB_URI') })
 
-const recordType = {
-  Problem: '0120a000000vHVKAA2' // 01239000000EB4OAAW for c0
-}
-
-const recordName = {
-  '0120a000000vHVKAA2': 'Problem'
-}
-
-const record = (arg, key) => {
-  if (!key) return null
-  if (arg === 'id') return recordType[key]
-  if (arg === 'name') return recordName[key]
-  return null
-}
-
 const oauth2 = new jsforce.OAuth2({
-  loginUrl: 'https://samanageservicedesk-7030.cloudforce.com',
+  // loginUrl: 'https://samanageservicedesk-7030.cloudforce.com',
   clientId: config('SF_ID'),
   clientSecret: config('SF_SECRET'),
   redirectUri: 'https://problem-bot.herokuapp.com/authorize'
@@ -91,16 +76,21 @@ function retrieveSfObj (conn) {
     newProblem (user, subject, platform, priority, origin, description) {
       console.log(`[salesforce] ** about to create new Problem for ${user}`)
       let request
+      let platform__c
+
+      if (platform === 'SSP') platform__c = 'MMBU'
+      if (platform === 'SSF') platform__c = 'EBU'
+      else platform__c = null
 
       return new Promise((resolve, reject) => {
         return this.retrieveRecordTypeId('Problem', 'Case').then((recordtypeid) => {
           return conn.sobject('Case').create({
             SamanageESD__RequesterUser__c: user,
-            Subject: `${subject} -- ${platform}`, // for now we append to subject since i dont have that custom field in tso
-            // Platform__c: platform,
+            Subject: `${platform} -- ${subject}`, // for now we append to subject since i dont have that custom field in tso
+            Platform__c: `${platform__c}`,
             Priority: priority,
-            Origin: origin,
-            Description: description,
+            Origin: `${origin !== 'Email' || 'email' || 'web' || 'Web' || 'Phone' || 'phone' || 'Slack' || 'slack' ? 'Slack' : origin}`,
+            Description: `${origin} - ${description}`,
             OwnerId: '00539000005ozwGAAQ',
             RecordTypeId: recordtypeid
           }, (error, ret) => {
