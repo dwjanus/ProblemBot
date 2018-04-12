@@ -76,18 +76,14 @@ function retrieveSfObj (conn) {
     newProblem (user, subject, platform, priority, origin, description) {
       console.log(`[salesforce] ** about to create new Problem for ${user}`)
       let request
-      let platform__c
-
-      if (platform === 'SSP') platform__c = 'MMBU'
-      if (platform === 'SSF') platform__c = 'EBU'
-      else platform__c = null
+      if (platform == 'NONE') platform = null
 
       return new Promise((resolve, reject) => {
         return this.retrieveRecordTypeId('Problem', 'Case').then((recordtypeid) => {
           return conn.sobject('Case').create({
             SamanageESD__RequesterUser__c: user,
-            Subject: `${platform} -- ${subject}`, // for now we append to subject since i dont have that custom field in tso
-            Platform__c: `${platform__c}`,
+            Subject: subject,
+            Platform__c: platform,
             Priority: priority,
             Origin: `${origin !== 'Email' || 'email' || 'web' || 'Web' || 'Phone' || 'phone' || 'Slack' || 'slack' ? 'Slack' : origin}`,
             Description: `${origin} - ${description}`,
