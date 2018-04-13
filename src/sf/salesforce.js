@@ -86,7 +86,7 @@ function retrieveSfObj (conn) {
             Priority: priority,
             Origin: `${origin !== 'Email' || 'email' || 'web' || 'Web' || 'Phone' || 'phone' || 'Slack' || 'slack' ? 'Slack' : origin}`,
             Description: `${origin} - ${description}`,
-            OwnerId: '00539000005ozwGAAQ',
+            OwnerId: '00539000005ozwGAAQ' || '0050a00000JOzaCAAT',
             RecordTypeId: recordtypeid
           }, (error, ret) => {
             if (error || !ret.success) return reject(error || 'error')
