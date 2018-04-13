@@ -34,21 +34,14 @@ const controller = Botkit.slackbot({
   redirectUri: 'https://problem-bot.herokuapp.com/oauth',
   scopes: [
     'bot',
-    'incoming-webhook', 
-    'chat:write:bot', 
-    'im:history', 
-    'mpm:history', 
     'channels:history', 
     'groups:history',
-    'users:profile:read',
-    'users:read:email'
   ]
 })
 
 controller.setupWebserver(port, (err, webserver) => {
   if (err) console.log(err)
   controller.createHomepageEndpoint(controller.webserver)
-  controller.createWebhookEndpoints(controller.webserver)
   controller.createOauthEndpoints(controller.webserver, (authErr, req, res) => {
     if (authErr) res.status(500).send(`ERROR: ${authErr}`)
     else res.send('Success! Problem Bot has been added to your team')
