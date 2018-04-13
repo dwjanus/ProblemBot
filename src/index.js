@@ -23,7 +23,7 @@ if (!config('SLACK_CLIENT_ID') || !config('SLACK_CLIENT_SECRET')) {
 }
 
 const controller = Botkit.slackbot({
-  token: config('SLACK_BOT_TOKEN'),
+  // token: config('SLACK_BOT_TOKEN'),
   storage: mongoStorage,
   interactive_replies: true,
   rtm_receive_messages: false
