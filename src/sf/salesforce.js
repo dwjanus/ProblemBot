@@ -76,7 +76,6 @@ function retrieveSfObj (conn) {
     newProblem (user, subject, platform, priority, origin, description) {
       console.log(`[salesforce] ** about to create new Problem for ${user}`)
       let request
-      if (platform == 'NONE') platform = null
 
       return new Promise((resolve, reject) => {
         return this.retrieveRecordTypeId('Problem', 'Case').then((recordtypeid) => {

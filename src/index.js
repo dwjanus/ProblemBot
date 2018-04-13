@@ -168,7 +168,7 @@ controller.on('interactive_message_callback', (bot, trigger) => {
         options: [
           { label: 'SSP', value: 'SSP' },
           { label: 'SSF', value: 'SSF' },
-          { label: '--None--', value: 'NONE' }
+          { label: '--None--', value: null }
         ]
       },
       {
