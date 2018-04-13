@@ -113,7 +113,7 @@ controller.hears(['(.*)'], 'direct_mention', (bot, message) => {
     console.log(`user to pass to sf: ${util.inspect(user)}`)
     let response = `✋ Hold your horses!\nVisit this URL to login to Salesforce: https://problem-bot.herokuapp.com/login/${message.user}`
     
-    if (user.sf.tokens) {
+    if (user.sf) {
       response = {
         attachments: [
           {
