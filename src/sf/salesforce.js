@@ -10,7 +10,7 @@ import Promise from 'bluebird'
 const storage = mongo({ mongoUri: config('MONGODB_URI') })
 
 const oauth2 = new jsforce.OAuth2({
-  // loginUrl: 'https://samanageservicedesk-7030.cloudforce.com',
+  loginUrl: 'https://samanageservicedesk-7030.cloudforce.com',
   clientId: config('SF_ID'),
   clientSecret: config('SF_SECRET'),
   redirectUri: 'https://problem-bot.herokuapp.com/authorize'
@@ -78,7 +78,7 @@ function retrieveSfObj (conn) {
       let request
 
       if (platform == 'None') platform = null
-      
+
       return new Promise((resolve, reject) => {
         return this.retrieveRecordTypeId('Problem', 'Case').then((recordtypeid) => {
           return conn.sobject('Case').create({
