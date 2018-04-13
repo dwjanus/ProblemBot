@@ -80,7 +80,7 @@ controller.on('create_bot', (bot, botConfig) => {
         trackBot(bot)
       }
 
-      bot.startPrivateConversation({ user: botConfig.createdBy }, (error, convo) => {
+      bot.startPrivateConversation({ user: bot.config.createdBy }, (error, convo) => {
         if (error) {
           console.log(error)
         } else {
@@ -281,13 +281,13 @@ controller.on('dialog_submission', (bot, message) => {
 controller.storage.teams.all((err, teams) => {
   console.log('** connecting teams **\n')
   if (err) throw new Error(err)
-  for (const t in teams) {
+  for (var t in teams) {
     if (teams[t].bot) {
-      const bot = controller.spawn(teams[t]).startRTM((error) => {
+      controller.spawn(teams[t]).startRTM((error, bot) => {
         if (error) console.log(`Error: ${error} while connecting bot ${teams[t].bot} to Slack for team: ${teams[t].id}`)
         else {
-          getUserEmailArray(bot)
           trackBot(bot)
+          getUserEmailArray(bot)
         }
       })
     }
