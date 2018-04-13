@@ -32,7 +32,17 @@ const controller = Botkit.slackbot({
   clientSecret: config('SLACK_CLIENT_SECRET'),
   clientVerificationToken: config('SLACK_VERIFY'),
   redirectUri: 'https://problem-bot.herokuapp.com/oauth',
-  scopes: ['bot', 'incoming-webhook', 'channels:history', 'groups:history']
+  scopes: [
+    'bot',
+    'incoming-webhook', 
+    'chat:write:bot', 
+    'im:history', 
+    'mpm:history', 
+    'channels:history', 
+    'groups:history',
+    'users:profile:read',
+    'users:read:email'
+  ]
 })
 
 controller.setupWebserver(port, (err, webserver) => {
