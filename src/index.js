@@ -23,7 +23,6 @@ if (!config('SLACK_CLIENT_ID') || !config('SLACK_CLIENT_SECRET')) {
 }
 
 const controller = Botkit.slackbot({
-  // token: config('SLACK_BOT_TOKEN'),
   storage: mongoStorage,
   interactive_replies: true,
   rtm_receive_messages: false
@@ -62,7 +61,7 @@ function trackBot(bot) {
 }
 
 // quick greeting/create convo on new bot creation
-controller.on('create_bot', (bot, botConfig) => {
+controller.on('create_bot', (bot, config) => {
   console.log('** bot is being created **')
 
   if (_bots[bot.config.token]) { // do nothing
@@ -73,7 +72,7 @@ controller.on('create_bot', (bot, botConfig) => {
         trackBot(bot)
       }
 
-      bot.startPrivateConversation({ user: bot.config.createdBy }, (error, convo) => {
+      bot.startPrivateConversation({ user: config.createdBy }, (error, convo) => {
         if (error) {
           console.log(error)
         } else {
