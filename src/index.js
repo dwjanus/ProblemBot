@@ -104,34 +104,40 @@ controller.hears(['(.*)'], 'direct_mention', (bot, message) => {
   const subject = message.text
   console.log(`Text: ${subject}`)
 
+
   controller.storage.users.get(message.user, (error, user) => {
     if (error) console.log(error)
-    
+
     console.log(`user to pass to sf: ${util.inspect(user)}`)
+    let response = `✋ Hold your horses!\nVisit this URL to login to Salesforce: https://problem-bot.herokuapp.com/login/${message.user}`
     
-    bot.reply(message, {
-      attachments: [
-        {
-          title: `Create new problem with subject: "${subject}"?`,
-          callback_id: `${user.sf.id}:${subject}`,
-          attachment_type: 'default',
-          actions: [
-            {
-              name: 'create',
-              text: 'Create',
-              value: 'create',
-              type: 'button'
-            },
-            {
-              name: 'cancel',
-              text: 'Cancel',
-              value: 'cancel',
-              type: 'button'
-            }
-          ]
-        }
-      ]
-    })
+    if (user.sf.tokens) {
+      response = {
+        attachments: [
+          {
+            title: `Create new problem with subject: "${subject}"?`,
+            callback_id: `${user.sf.id}:${subject}`,
+            attachment_type: 'default',
+            actions: [
+              {
+                name: 'create',
+                text: 'Create',
+                value: 'create',
+                type: 'button'
+              },
+              {
+                name: 'cancel',
+                text: 'Cancel',
+                value: 'cancel',
+                type: 'button'
+              }
+            ]
+          }
+        ]
+      } 
+    }
+    
+    bot.reply(message, response)
   })
 })
 
