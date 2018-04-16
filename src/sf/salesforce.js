@@ -78,7 +78,9 @@ function retrieveSfObj (conn) {
       let request
 
       if (platform == 'None') platform = null
-
+      if (platform == 'SSP') platform = 'MMBU'
+      if (platform == 'SSF') platform = 'EBU'
+      
       return new Promise((resolve, reject) => {
         return this.retrieveRecordTypeId('Problem', 'Case').then((recordtypeid) => {
           return conn.sobject('Case').create({
