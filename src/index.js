@@ -114,7 +114,7 @@ controller.hears(['(.*)'], 'direct_mention', (bot, message) => {
     console.log(`user to pass to sf: ${util.inspect(user)}`)
     let response = `✋ Hold your horses!\nVisit this URL to login to Salesforce: https://problem-bot.herokuapp.com/login/${message.user}`
     
-    if (user.sf) {
+    if (user && user.sf) {
       response = {
         attachments: [
           {
@@ -218,6 +218,8 @@ controller.on('interactive_message_callback', (bot, trigger) => {
         console.log(`\ndialog:\n${util.inspect(dialog)}`)
       } else console.log('dialog successfully delivered!')
     })
+  } else {
+    bot.reply(trigger, `No worries, I'll be right here if you need me.`)
   }
 })
 
